@@ -21,7 +21,7 @@ public class CityController {
      * @param saveDir directory where zipped xml file is downloaded
      */
     @PostMapping("/process")
-    public void processCitiesAndCityParts(
+    public synchronized void processCitiesAndCityParts(
             @Value("${city.fileURL}") String fileURL,
             @Value("${city.saveDir}") String saveDir) {
         xmlToDatabase.processAndSaveCitiesAndCityParts(fileURL, saveDir);
