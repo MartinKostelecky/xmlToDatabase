@@ -22,8 +22,13 @@ public class DownloadAndUnzipFileService {
      */
     public void downloadZippedFile(String fileURL, String saveDir) throws IOException {
         URL url = new URL(fileURL);
+        //creates new channel to read content from url connection
         try(ReadableByteChannel rbch = Channels.newChannel(url.openStream());
+            //variable pointing to save directory of downloaded file
             FileOutputStream fos = new FileOutputStream(saveDir)) {
+            //transfers bytes into this channel's file from the given readable byte channel
+            //parametres are: src – the source channel, position = the file position at which the transfer is to begin
+            //count – the maximum number of bytes to be transferred
             fos.getChannel().transferFrom(rbch, 0, Long.MAX_VALUE);
         }
     }
@@ -60,10 +65,13 @@ public class DownloadAndUnzipFileService {
      * @throws IOException
      */
     public static void extractFile(ZipInputStream zipInput, String filePath) throws IOException {
+        //writes data in bytes using another OutputStream
         try(BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath))) {
             byte[] bytesIn = new byte[4096];
             int read;
+            //until there are bytes
             while((read = zipInput.read(bytesIn)) != -1) {
+                //writes given length of bytes from the specified byte array starting at given offset to the buffered output stream
                 bos.write(bytesIn, 0, read);
             }
         }

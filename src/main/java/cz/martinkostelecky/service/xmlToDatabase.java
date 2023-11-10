@@ -61,11 +61,14 @@ public class xmlToDatabase {
         List<CityEntity> cities = new ArrayList<>();
 
         try {
+            //Defines a factory API that enables applications to obtain a parser that produces DOM object trees from XML documents
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            //Defines the API to obtain DOM Document instances from an XML document. Using this class,
+            // an application programmer can obtain a Document from XML
             DocumentBuilder docBuilder = dbFactory.newDocumentBuilder();
 
             // Use getClass().getResourceAsStream() to get the InputStream of the XML file in resources directory
-            InputStream inputStream = getClass().getResourceAsStream("/20210331_OB_573060_UZSZ.xml");
+            InputStream inputStream = getClass().getResourceAsStream("someFile.xml");
 
             // Use InputStreamReader to specify the encoding (UTF-8 in this case)
             Reader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
@@ -73,8 +76,11 @@ public class xmlToDatabase {
             is.setEncoding("UTF-8");
 
             Document doc = docBuilder.parse(is);
+            // transforms Unicode text into the standard normalization forms described in Unicode Standard Annex #15 Unicode Normalization Forms
             doc.getDocumentElement().normalize();
-
+            // NodeList interface provides the abstraction of an ordered collection of nodes,
+            // without defining or constraining how this collection is implemented. NodeList objects in the DOM are live.
+            // The items in the NodeList are accessible via an integral index, starting from 0.
             NodeList cityNodes = doc.getElementsByTagName("vf:Obec");
             for (int i = 0; i < cityNodes.getLength(); i++) {
                 Node cityNode = cityNodes.item(i);
